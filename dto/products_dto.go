@@ -20,3 +20,10 @@ type CreateProductResponseDto struct {
 type GetProductImagesResponseDto []string
 
 type AddCompressedImagesRequestDto []string
+
+type GetAllProductResponseDto struct {
+	Status   string           `json:"status"`
+	Code     int              `json:"code"`
+	Message  string           `json:"message"`
+	Products []models.Product `json:"products"`
+}

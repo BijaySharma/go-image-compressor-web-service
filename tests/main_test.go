@@ -102,3 +102,17 @@ func TestAddCompressedImages(t *testing.T) {
 		}
 	})
 }
+
+func TestGetAllProducts(t *testing.T) {
+	t.Run("GetAllProducts", func(t *testing.T) {
+		c, _ := gin.CreateTestContext(httptest.NewRecorder())
+		writer := MakeRequest("GET", "/products", nil)
+
+		c.Writer.WriteHeaderNow()
+		if writer.Code != http.StatusOK {
+			// print the response body
+			fmt.Println("Response Body", writer.Body.String())
+			t.Errorf("Expected status %d but got %d", http.StatusOK, writer.Code)
+		}
+	})
+}

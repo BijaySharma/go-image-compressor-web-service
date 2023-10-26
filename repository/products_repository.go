@@ -89,3 +89,17 @@ func (repository *ProductsRepository) AddCompressedImages(productId int, imageUr
 
 	return nil
 }
+
+func (repository *ProductsRepository) GetAllProducts() ([]models.Product, error) {
+	logrus.Info("ProductsRepository.GetAllProducts")
+
+	conn := db.GetInstance()
+	var products []models.Product
+
+	if err := conn.Preload("ProductImages").Preload("CompressedProductImages").Find(&products).Error; err != nil {
+		logrus.Error("Error getting products: ", err)
+		return nil, err
+	}
+
+	return products, nil
+}

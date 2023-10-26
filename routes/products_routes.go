@@ -10,6 +10,12 @@ func SetupProductsRoutes(router *gin.Engine) {
 	productsController := controllers.ProductsController{}
 	products := router.Group("/products")
 	{
+
+		// @PATH: /products
+		// @METHOD: GET
+		// @DESCRIPTION: Get All Products
+		products.GET("/", productsController.GetAllProducts)
+
 		// @PATH: /products
 		// @METHOD: POST
 		// @DESCRIPTION: Create a new product

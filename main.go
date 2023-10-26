@@ -69,5 +69,8 @@ func main() {
 	logrus.Info("Server context path ", viper.GetString("server.contextPath"))
 	routes.SetupRoutes(engine)
 
+	// Serve Compressed Static Product Images
+	engine.Static("/images", "../images")
+
 	startServer(engine, viper.GetString("server.port"))
 }

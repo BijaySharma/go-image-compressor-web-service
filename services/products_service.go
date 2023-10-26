@@ -76,3 +76,24 @@ func (service *ProductsService) AddCompressedImages(productId int, payload *dto.
 
 	return &imageUrls, nil
 }
+
+func (service *ProductsService) GetAllProducts() (*dto.GetAllProductResponseDto, *dto.ErrorDto) {
+	logrus.Info("ProductsService.GetProducts")
+
+	products, err := productsRepository.GetAllProducts()
+
+	if err != nil {
+		return nil, &dto.ErrorDto{
+			Status:  "error",
+			Code:    500,
+			Message: err.Error(),
+		}
+	}
+
+	return &dto.GetAllProductResponseDto{
+		Status:   "success",
+		Code:     200,
+		Message:  "Products retrieved successfully",
+		Products: products,
+	}, nil
+}

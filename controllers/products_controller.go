@@ -87,3 +87,16 @@ func (controller *ProductsController) AddCompressedImages(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, res)
 }
+
+func (controller *ProductsController) GetAllProducts(c *gin.Context) {
+	logrus.Info("ProductsController.GetProducts")
+
+	res, err := productsService.GetAllProducts()
+	if err != nil {
+		logrus.Error("Error getting products: ", err)
+		c.JSON(err.Code, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}

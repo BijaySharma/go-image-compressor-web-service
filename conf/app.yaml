@@ -13,3 +13,6 @@ db:
 kafka:
   bootstrapServer: localhost:9092
   topic: products
+
+files:
+  basePath: /Users/bijaysharma/Documents/zocket/images
