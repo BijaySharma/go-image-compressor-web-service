@@ -8,5 +8,17 @@ import (
 
 func SetupProductsRoutes(router *gin.Engine) {
 	productsController := controllers.ProductsController{}
-	router.POST("/products", productsController.CreateProduct)
+	products := router.Group("/products")
+	{
+		// @PATH: /products
+		// @METHOD: POST
+		// @DESCRIPTION: Create a new product
+		products.POST("/", productsController.CreateProduct)
+
+		// @PATH: /products/images/:id
+		// @METHOD: POST
+		// @DESCRIPTION: Get All Product Images
+		products.GET("images/:id", productsController.GetProductImages)
+	}
+
 }

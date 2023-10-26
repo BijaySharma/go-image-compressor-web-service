@@ -37,3 +37,17 @@ func (controller *ProductsController) CreateProduct(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, res)
 }
+
+func (controller *ProductsController) GetProductImages(c *gin.Context) {
+	logrus.Info("ProductsController.GetProductImages")
+	productId := c.Param("id")
+
+	res, err := productsService.GetProductImages(productId)
+	if err != nil {
+		logrus.Error("Error getting product images: ", err)
+		c.JSON(err.Code, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}

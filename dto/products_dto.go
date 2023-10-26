@@ -1,5 +1,7 @@
 package dto
 
+import "web-service/models"
+
 type CreateProductRequestDto struct {
 	UserId             int      `json:"user_id" binding:"required"`
 	ProductName        string   `json:"product_name" binding:"required"`
@@ -9,7 +11,10 @@ type CreateProductRequestDto struct {
 }
 
 type CreateProductResponseDto struct {
-	Status  string `json:"status"`
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Status  string         `json:"status"`
+	Code    int            `json:"code"`
+	Message string         `json:"message"`
+	Product models.Product `json:"product"`
 }
+
+type GetProductImagesResponseDto []string

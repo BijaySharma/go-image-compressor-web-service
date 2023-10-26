@@ -53,3 +53,17 @@ func (repository *ProductsRepository) CreateProduct(payload *dto.CreateProductRe
 
 	return &product, nil
 }
+
+func (repository *ProductsRepository) GetProductImages(productId string) (dto.GetProductImagesResponseDto, error) {
+	logrus.Info("ProductsRepository.GetProductImages")
+
+	conn := db.GetInstance()
+	var productImages []string
+
+	if err := conn.Model(&models.ProductImage{}).Select("image_url").Where("product_id = ?", productId).Find(&productImages).Error; err != nil {
+		logrus.Error("Error getting product images: ", err)
+		return nil, err
+	}
+
+	return productImages, nil
+}

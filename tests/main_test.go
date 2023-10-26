@@ -3,6 +3,8 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -10,9 +12,26 @@ import (
 	"web-service/routes"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 )
 
+func loadConfig() {
+	configFilePath := flag.String("config", "../conf/", "Path to config file")
+	flag.Parse()
+	fmt.Println("Config file path:", *configFilePath)
+
+	viper.SetConfigName("app")
+	viper.AddConfigPath(*configFilePath)
+	viper.SetConfigType("yaml")
+	if err := viper.ReadInConfig(); err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s", err))
+	}
+	logrus.Info("Config file loaded successfully")
+}
+
 func TestMain(m *testing.M) {
+	loadConfig()
 	gin.SetMode(gin.TestMode)
 	os.Exit(m.Run())
 }
@@ -49,5 +68,20 @@ func TestCreateProduct(t *testing.T) {
 		if response["status"] != "success" {
 			t.Errorf("Expected status to be success but got %s", response["status"])
 		}
+	})
+}
+
+func TestGetProductImages(t *testing.T) {
+	t.Run("GetProductImages", func(t *testing.T) {
+		writer := MakeRequest("GET", "/products/images/1", nil)
+
+		if writer.Code != http.StatusOK {
+			// print the response body
+			fmt.Println("Response Body", writer.Body.String())
+			t.Errorf("Expected status %d but got %d", http.StatusOK, writer.Code)
+		}
+
+		var response []string
+		json.Unmarshal(writer.Body.Bytes(), &response)
 	})
 }

@@ -34,5 +34,22 @@ func (service *ProductsService) CreateProduct(payload *dto.CreateProductRequestD
 		Status:  "success",
 		Code:    201,
 		Message: "Product created successfully",
+		Product: *product,
 	}, nil
+}
+
+func (service *ProductsService) GetProductImages(productId string) (*dto.GetProductImagesResponseDto, *dto.ErrorDto) {
+	logrus.Info("ProductsService.GetProductImages")
+
+	productImages, err := productsRepository.GetProductImages(productId)
+
+	if err != nil {
+		return nil, &dto.ErrorDto{
+			Status:  "error",
+			Code:    500,
+			Message: err.Error(),
+		}
+	}
+
+	return &productImages, nil
 }
