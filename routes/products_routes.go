@@ -16,9 +16,14 @@ func SetupProductsRoutes(router *gin.Engine) {
 		products.POST("/", productsController.CreateProduct)
 
 		// @PATH: /products/images/:id
-		// @METHOD: POST
+		// @METHOD: GET
 		// @DESCRIPTION: Get All Product Images
 		products.GET("images/:id", productsController.GetProductImages)
+
+		// @PATH: /products/compressed-images/:id
+		// @METHOD: POST
+		// @DESCRIPTION: Add Compressed Images
+		products.POST("compressed-images/:id", productsController.AddCompressedImages)
 	}
 
 }

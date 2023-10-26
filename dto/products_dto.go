@@ -18,3 +18,5 @@ type CreateProductResponseDto struct {
 }
 
 type GetProductImagesResponseDto []string
+
+type AddCompressedImagesRequestDto []string

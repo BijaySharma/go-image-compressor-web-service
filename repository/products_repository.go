@@ -67,3 +67,25 @@ func (repository *ProductsRepository) GetProductImages(productId string) (dto.Ge
 
 	return productImages, nil
 }
+
+func (repository *ProductsRepository) AddCompressedImages(productId int, imageUrls *[]string) error {
+	logrus.Info("ProductsRepository.AddCompressedImages")
+
+	conn := db.GetInstance()
+
+	var compressedProductImages []models.CompressedProductImage = make([]models.CompressedProductImage, len(*imageUrls))
+
+	for i, imageUrl := range *imageUrls {
+		compressedProductImages[i] = models.CompressedProductImage{
+			ProductId: productId,
+			ImageUrl:  imageUrl,
+		}
+	}
+
+	if err := conn.Create(&compressedProductImages).Error; err != nil {
+		logrus.Error("Error creating product images: ", err)
+		return err
+	}
+
+	return nil
+}

@@ -85,3 +85,20 @@ func TestGetProductImages(t *testing.T) {
 		json.Unmarshal(writer.Body.Bytes(), &response)
 	})
 }
+
+func TestAddCompressedImages(t *testing.T) {
+	t.Run("AddCompressedImages", func(t *testing.T) {
+		writer := MakeRequest("POST", "/products/compressed-images/1", []string{"abc", "xyz"})
+		if writer.Code != http.StatusCreated {
+			t.Errorf("Expected status %d but got %d", http.StatusCreated, writer.Code)
+		}
+
+		var response []string
+		json.Unmarshal(writer.Body.Bytes(), &response)
+
+		// Check if the response is correct
+		if len(response) != 2 {
+			t.Errorf("Expected 2 images but got %d", len(response))
+		}
+	})
+}
