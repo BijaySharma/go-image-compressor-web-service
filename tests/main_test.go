@@ -54,7 +54,7 @@ func TestCreateProduct(t *testing.T) {
 			"product_name":        "Test Product",
 			"product_description": "abc",
 			"product_price":       23.4,
-			"product_images":      []string{"abc", "xyz"},
+			"product_images":      []string{"https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*", "https://thumbs.dreamstime.com/b/golden-retriever-dog-sitting-isolated-white-24750809.jpg"},
 		})
 
 		if writer.Code != http.StatusCreated {
