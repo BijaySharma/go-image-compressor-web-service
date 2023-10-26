@@ -1,3 +1,14 @@
 server:
   port: 8080
   contextPath: /
+
+db:
+  host: 127.0.0.1
+  port: 5432
+  dbname: zocket
+  user: zocket
+  password: zocket#123
+
+kafka:
+  bootstrapServer: localhost:9092
+  topic: products
