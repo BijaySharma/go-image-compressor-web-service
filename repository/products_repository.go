@@ -20,6 +20,7 @@ func (repository *ProductsRepository) CreateProduct(payload *dto.CreateProductRe
 	defer tx.Rollback()
 
 	product := models.Product{
+		UserId:             payload.UserId,
 		ProductName:        payload.ProductName,
 		ProductPrice:       payload.ProductPrice,
 		ProductDescription: payload.ProductDescription,

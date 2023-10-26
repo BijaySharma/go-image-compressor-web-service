@@ -1,6 +1,7 @@
 package models
 
 type Product struct {
+	UserId                  int                      `gorm:"column:user_id;not null" json:"user_id"`
 	ProductId               int                      `gorm:"column:product_id;primary_key;auto_increment" json:"product_id"`
 	ProductName             string                   `gorm:"column:product_name;size:255;not null" json:"product_name"`
 	ProductDescription      string                   `gorm:"column:product_description;not null" json:"product_description"`
