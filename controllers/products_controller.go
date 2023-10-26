@@ -1,11 +1,39 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+	"web-service/dto"
+	"web-service/services"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+)
 
 type ProductsController struct{}
 
+var productsService services.ProductsService = services.ProductsService{}
+
 func (controller *ProductsController) CreateProduct(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "create product",
-	})
+	logrus.Info("ProductsController.CreateProduct")
+
+	var payload dto.CreateProductRequestDto
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		logrus.Error("Error binding JSON: ", err)
+		c.JSON(http.StatusBadRequest, dto.ErrorDto{
+			Status:  "error",
+			Code:    400,
+			Message: "Error binding JSON",
+		})
+
+		return
+	}
+
+	res, err := productsService.CreateProduct(&payload)
+	if err != nil {
+		logrus.Error("Error creating product: ", err)
+		c.JSON(err.Code, err)
+		return
+	}
+
+	c.JSON(http.StatusCreated, res)
 }
