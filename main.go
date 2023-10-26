@@ -10,7 +10,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"web-service/controllers"
+	"web-service/routes"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -59,25 +59,6 @@ func startServer(engine *gin.Engine, port string) {
 	logrus.Info("Server exiting")
 }
 
-func loadRoutes(engine *gin.Engine) {
-	// Controllers
-	productsController := controllers.ProductsController{}
-
-	// Application Context Routes
-	app := engine.Group(viper.GetString("server.contextPath"))
-	{
-		// @PATH: /products
-		// @DESC: Products APIs
-		products := app.Group("/products")
-		{
-			// @PATH: /products
-			// @METHOD: POST
-			// @DESC: Create a new product
-			products.POST("/", productsController.CreateProduct)
-		}
-	}
-}
-
 func init() {
 	loadConfig()
 }
@@ -87,7 +68,7 @@ func main() {
 	engine.Use(gin.Logger())
 
 	logrus.Info("Server context path ", viper.GetString("server.contextPath"))
-	loadRoutes(engine)
+	routes.SetupRoutes(engine)
 
 	startServer(engine, viper.GetString("server.port"))
 }
