@@ -1,0 +1,1 @@
+# go-image-compressor-web-service
